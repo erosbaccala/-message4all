@@ -1,0 +1,91 @@
+1) Registrazione
+	end-point:		/sign-up POST
+	input:			(form HTML)
+					username: "erosbaccala"
+					password: "miapsw"
+	output:			"Registrazione effettuata con successo"
+					(redirect index.html)
+
+2) Accesso
+	end-point:		/log-in POST
+	input:			(form HTML)
+					username: "erosbaccala"
+					password: "miapsw"
+	output:
+					session{
+						"username":"erosbaccala"
+					}
+					
+					"Login effettuato con successo"
+					(redirect index.html)
+
+3) Lista chat
+	end-point:		/list GET
+	input:			session{
+						"username":"erosbaccala",
+						"chat":""
+					}
+	output:			[
+						["1", "mariorossi", "Ciao, questo è l'ultimo messaggio che ti ho inviato", "13:31"]
+						["2", "luigiverdi", "Come va?", "14:21"]
+					]
+
+4) Inizia nuova chat
+	end-point:		/new-chat POST
+	input:			(form HTML)
+					username: "lorenzobianchi"
+	output:			(punto 5 - Visualizza una chat)
+	
+5) Visualizza una chat
+	end-point:		/chat?user="mariorossi"	GET
+	input:			user: "mariorossi"
+	output:			session{
+						"username":"erosbaccala",
+						"chat":"mariorossi"
+					}
+					[
+						["erosbaccala", "Ciao come sta andando?", "10:15"],
+						["mariorossi", "Ciao, questo è l'ultimo messaggio che ti ho inviato", "13:31"]
+					]
+
+6) Scrivere un messaggio
+	end-point:		/write POST
+	input:			(form HTML)
+					msg: "Questo è il mio nuovo messaggio, divertiti"
+	output:			[
+						["erosbaccala", "Ciao come sta andando?", "10:15"],
+						["mariorossi", "Ciao, questo è l'ultimo messaggio che ti ho inviato", "13:31"],
+						["erosbaccala", "Questo è il mio nuovo messaggio, divertiti", "13:45"]
+					]
+
+7) Aggiorna chat (utilizzata per controllare l'arrivo di nuovi messaggi in tutte le chat)
+	end-point:		/refresh-chat GET
+	input:			session{
+						"username":"erosbaccala",
+					}
+	output:			[
+						["erosbaccala", "Ciao come sta andando?", "10:15"],
+						["mariorossi", "Ciao, questo è l'ultimo messaggio che ti ho inviato", "13:31"]
+					]
+
+8) Aggiorna messaggi (utilizzata per controllare l'arrivo di nuovi messaggi mentre ci troviamo nella visualizzazione di una chat[5])
+	end-point:		/refresh-msg
+	input:			session{
+						"username":"erosbaccala",
+						"chat":"mariorossi"
+					}
+	output:			[
+						["erosbaccala", "Ciao come sta andando?", "10:15"],
+						["mariorossi", "Ciao, questo è l'ultimo messaggio che ti ho inviato", "13:31"]
+					]
+
+
+
+- Registrazione
+- Accesso
+- Lista chat
+- Inizia nuova chat
+- Visualizza una chat
+- Scrivere un messaggio
+- Aggiorna chat
+- Aggiorna messaggi
