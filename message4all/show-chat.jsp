@@ -61,20 +61,26 @@
 %>
 <body>
     <h1> Chat con <%=user%></h1>
+    <form action="send" method="post">
+    <input type="text" name="msg" placeholder="Inserisci messaggio" required>
+    <input type="hidden" name="user" value="<%=user%>">
+    <input type="submit" value="Invia">
+</form>
 <% 
     try{
         for(int i=0;i<messaggi.length;i++){
             if(messaggi[i][0].equals(me))
                 out.println("<p align=right>"+messaggi[i][1]+"</p>");
             else
-                out.println("<p align=left>"+messaggi[i][1]+"</p");        
+                out.println("<p align=left>"+messaggi[i][1]+"</p>");        
         }
     }
     catch(Exception e){
         out.println(e);
     }
 %>
-    
+
+
 
 </body>
 </html>

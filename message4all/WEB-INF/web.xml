@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <servlet>
-        <servlet-name>Access</servlet-name>
-        <servlet-class>Main</servlet-class>
+        <servlet-name>SendMessage</servlet-name>
+        <servlet-class>SendMessage</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Access</servlet-name>
-        <url-pattern>/access</url-pattern>
+        <servlet-name>SendMessage</servlet-name>
+        <url-pattern>/send</url-pattern>
     </servlet-mapping>
 
 	<servlet>
