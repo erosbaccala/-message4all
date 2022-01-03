@@ -1,4 +1,4 @@
-1) Registrazione
+1) Registrazione FATTO con DB
 	end-point:		/sign-up POST
 	input:			(form HTML)
 					username: "erosbaccala"
@@ -6,7 +6,7 @@
 	output:			"Registrazione effettuata con successo"
 					(redirect index.html)
 
-2) Accesso
+2) Accesso FATTO con DB
 	end-point:		/log-in POST
 	input:			(form HTML)
 					username: "erosbaccala"
@@ -19,7 +19,7 @@
 					"Login effettuato con successo"
 					(redirect index.html)
 
-3) Lista chat
+3) Lista chat FATTO
 	end-point:		/list GET
 	input:			session{
 						"username":"erosbaccala",
@@ -36,7 +36,7 @@
 					username: "lorenzobianchi"
 	output:			(punto 5 - Visualizza una chat)
 	
-5) Visualizza una chat
+5) Visualizza una chat FATTO con DB
 	end-point:		/chat?user="mariorossi"	GET
 	input:			user: "mariorossi"
 	output:			session{

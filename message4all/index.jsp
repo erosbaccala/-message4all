@@ -7,7 +7,7 @@
 
     <% 
     if(session.getAttribute("nome") != null){
-        response.sendRedirect(request.getContextPath()+"/protetta.jsp");
+        response.sendRedirect(request.getContextPath()+"/lista-chat.jsp");
     }
     
     %>
