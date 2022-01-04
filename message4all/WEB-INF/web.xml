@@ -38,4 +38,13 @@
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NewChat</servlet-name>
+        <servlet-class>NewChat</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewChat</servlet-name>
+        <url-pattern>/newchat</url-pattern>
+    </servlet-mapping>
 </web-app>

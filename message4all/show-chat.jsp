@@ -34,7 +34,7 @@
         }
     }
     catch(Exception e) {
-        out.print(e);
+        out.print("");
     }
     finally{
         if(connection != null){
@@ -61,14 +61,13 @@
 %>
 <body>
     <h1> Chat con <%=user%></h1>
-    <form action="send" method="post">
-    <input type="text" name="msg" placeholder="Inserisci messaggio" required>
-    <input type="hidden" name="user" value="<%=user%>">
-    <input type="submit" value="Invia">
-</form>
+    
+
 <% 
     try{
         for(int i=0;i<messaggi.length;i++){
+            if(messaggi[0][1].equals(""))
+                break;
             if(messaggi[i][0].equals(me))
                 out.println("<p align=right>"+messaggi[i][1]+"</p>");
             else
@@ -76,11 +75,15 @@
         }
     }
     catch(Exception e){
-        out.println(e);
+        out.println("");
     }
 %>
-
-
+<form action="send" method="post">
+    <input type="text" name="msg" placeholder="Inserisci messaggio" required>
+    <input type="hidden" name="user" value="<%=user%>">
+    <input type="submit" value="Invia">
+</form>
+<a href='lista-chat.jsp'>Torna alle tue chat</a>
 
 </body>
 </html>
