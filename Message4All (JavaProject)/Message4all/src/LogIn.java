@@ -34,6 +34,7 @@ import net.ucanaccess.jdbc.UcanaccessSQLException;
            response.sendRedirect(request.getContextPath() + "/lista-chat.jsp");
          } else {
            out.println("<h1> Nessun utente registrato con queste credenziali</h1>");
+           out.println("<a href='index.jsp'>Torna alla pagina di login </a>");
          } 
      }
      catch(Exception e) {
