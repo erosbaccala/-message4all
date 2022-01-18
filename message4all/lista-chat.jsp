@@ -19,9 +19,6 @@
     String me = (String)session.getAttribute("user");
     Vector<String> users = new Vector<String>();
     Vector<String> msg = new Vector<String>();
-    String[] mess=null;
-    String[][] messaggi=null;
-    String m = null;
 
     try {
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -31,23 +28,19 @@
     Connection connection=null;
     try {
         connection = DriverManager.getConnection("jdbc:ucanaccess://" + request.getServletContext().getRealPath("/") + "Users.accdb");
-        String query = "Select Utente1, Utente2, Messaggio FROM chat WHERE (Utente1 = '" + me + "' OR Utente2 = '" + me + "');";
+        String query = "Select Mittente, Destinatario, Messaggio FROM chat WHERE (Mittente = '" + me + "' OR Destinatario = '" + me + "') ORDER BY TimeStamp DESC;";
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(query);
         while(rs.next()) {
-            if(rs.getString(1).equals(me))
-                users.add(rs.getString(2));
-            else
-                users.add(rs.getString(1));
+            if(users.contains(rs.getString(1)) || users.contains(rs.getString(2)))
+                continue;
             
-            m = rs.getString(3);
-            mess = m.split(";");
-            messaggi = new String[mess.length][2];
-            for(int i=0;i<mess.length;i++){
-                messaggi[i][0] = mess[i].split(":")[0];
-                messaggi[i][1] = mess[i].split(":")[1];
-            }
-            msg.add(messaggi[(messaggi.length)-1][0]+"-->"+messaggi[(messaggi.length)-1][1]);
+            if(rs.getString(1).equals(me)){
+                users.add(rs.getString(2));
+            }else
+                users.add(rs.getString(1));
+
+            msg.add(rs.getString(1)+"-->"+rs.getString(3));
         }
     }
     catch(Exception e) {

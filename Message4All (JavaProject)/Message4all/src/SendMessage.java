@@ -3,6 +3,11 @@ import java.sql.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import net.ucanaccess.jdbc.UcanaccessSQLException;
+import java.util.concurrent.TimeUnit;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 
  public class SendMessage extends HttpServlet {
    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -11,8 +16,6 @@ import net.ucanaccess.jdbc.UcanaccessSQLException;
 	   PrintWriter out = response.getWriter();
 	   String user = request.getParameter("user");
 	   String msg = request.getParameter("msg");
-	   String msgFinale = "";
-	   int IDchat=-1;
 	   String me = (String) session.getAttribute("user");
 	   try {
 	       Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -22,20 +25,12 @@ import net.ucanaccess.jdbc.UcanaccessSQLException;
 	     Connection connection=null;
 	     try {
 	       connection = DriverManager.getConnection("jdbc:ucanaccess://" + request.getServletContext().getRealPath("/") + "Users.accdb");
+	       SimpleDateFormat form=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	       String data = form.format(new Date());
 	       
-	       String query = "Select ID, Messaggio FROM chat WHERE (Utente1 = '" + user + "' OR Utente1 = '" + me + "')AND (Utente2 = '" + me + "' OR Utente2 = '" + user + "');";
+	       String query = "INSERT INTO chat(Mittente, Destinatario, Messaggio, TimeStamp) VALUES ('"+me+"','"+user+"','"+msg+"', #"+data+"#);";
 	       Statement st = connection.createStatement();
-	       ResultSet rs = st.executeQuery(query);
-	       if (rs.next()) {
-	    	   IDchat = rs.getInt(1);
-	    	   msgFinale += rs.getString(2);
-	           //response.sendRedirect(request.getContextPath() + "/lista-chat.jsp");
-	       }
-	       
-	       msgFinale += me+":"+msg+";";
-	       String query1 = "UPDATE chat SET Messaggio = '" + msgFinale + "' WHERE ID='" + IDchat + "';";
-	       Statement st1 = connection.createStatement();
-	       st1.executeUpdate(query1);
+	       st.executeUpdate(query);
 	       response.sendRedirect(request.getContextPath() + "/show-chat.jsp?user="+user);
 	     }
 	     catch(Exception e) {

@@ -1,4 +1,5 @@
 <%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="javax.servlet.*" %>
 <%@ page import="javax.servlet.http.*" %>
@@ -7,9 +8,8 @@
 <%
     String user = request.getParameter("user");
     String me = (String)session.getAttribute("user");
-    String msg = null;
-    String[] mess=null;
-    String[][] messaggi=null;
+    Vector<String> mess = new Vector<String>();
+    Vector<String> mittente=new Vector<String>();
     
     try {
        Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -19,18 +19,12 @@
     Connection connection=null;
     try {
         connection = DriverManager.getConnection("jdbc:ucanaccess://" + request.getServletContext().getRealPath("/") + "Users.accdb");
-        String query = "Select Messaggio FROM chat WHERE (Utente1 = '" + user + "' OR Utente1 = '" + me + "')AND (Utente2 = '" + me + "' OR Utente2 = '" + user + "');";
+        String query = "Select Mittente, Messaggio FROM chat WHERE (Mittente = '" + user + "' OR Mittente = '" + me + "')AND (Destinatario = '" + me + "' OR Destinatario = '" + user + "') ORDER BY TimeStamp ASC;";
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(query);
-        if (rs.next()) {
-            msg = rs.getString(1);
-        } 
-
-        mess = msg.split(";");
-        messaggi = new String[mess.length][2];
-        for(int i=0;i<mess.length;i++){
-            messaggi[i][0] = mess[i].split(":")[0];
-            messaggi[i][1] = mess[i].split(":")[1];
+        while(rs.next()) {
+            mittente.add(rs.getString(1));
+            mess.add(rs.getString(2));
         }
     }
     catch(Exception e) {
@@ -60,18 +54,18 @@
 
 %>
 <body>
-    <h1> Chat con <%=user%></h1>
+    <h1 align=center> Chat con <%=user%></h1>
     
 
 <% 
     try{
-        for(int i=0;i<messaggi.length;i++){
-            if(messaggi[0][1].equals(""))
-                break;
-            if(messaggi[i][0].equals(me))
-                out.println("<p align=right>"+messaggi[i][1]+"</p>");
+        for(int i=0;i<mess.capacity();i++){
+            if(mess.get(i).equals("Benvenuti nella vostra chat"))
+                out.println("<h1 align=center>"+mess.get(i)+"</h1>");
+            else if(mittente.get(i).equals(me))
+                out.println("<p align=right>"+mess.get(i)+"</p>");
             else
-                out.println("<p align=left>"+messaggi[i][1]+"</p>");        
+                out.println("<p align=left>"+mess.get(i)+"</p>");        
         }
     }
     catch(Exception e){
